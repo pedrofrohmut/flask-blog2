@@ -1,0 +1,9 @@
+/venv
+/__pycache__
+
+" VIM Buffers
+*.swp
+*.swo
+
+" Emacs Buffers
+*~
