@@ -1,11 +1,18 @@
 """Database models."""
 # Using __main__ instead of app to workaround python import cycling
 from datetime import datetime
+from flask_login import UserMixin
 
-from flaskblog import db
+from flaskblog import db, login_manager
 
 
-class User(db.Model):
+@login_manager.user_loader
+def load_user(user_id):
+    """Find user by id."""
+    return User.query.get(int(user_id))
+
+
+class User(db.Model, UserMixin):
     """User database model for sqlalchemy."""
 
     id = db.Column(db.Integer, primary_key=True)

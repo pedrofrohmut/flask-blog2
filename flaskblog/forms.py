@@ -1,7 +1,9 @@
 """Forms."""
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, EmailField
-from wtforms.validators import DataRequired, Length, EqualTo, Email
+from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
+
+from flaskblog.models import User
 
 
 class SignUpForm(FlaskForm):
@@ -15,6 +17,18 @@ class SignUpForm(FlaskForm):
     confirm_password = PasswordField("Confirm password",
                                      validators=[DataRequired(), EqualTo("password")])
     submit = SubmitField("Submit")
+
+    def validate_username(self, username):
+        """Validate if the username is already taken checking the database."""
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError("Username already taken")
+
+    def validate_email(self, email):
+        """Validate if the e-mail is already taken checking the database."""
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError("E-mail already taken")
 
 
 class SignInForm(FlaskForm):
