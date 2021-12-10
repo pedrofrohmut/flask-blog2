@@ -15,7 +15,8 @@ from flaskblog import app, db, bcrypt
 @app.route("/home")
 def home():
     """Home and Root Route."""
-    posts = Post.query.all()
+    page = request.args.get("page", 1, type=int)
+    posts = Post.query.order_by(Post.created_at.desc()).paginate(per_page=5, page=page)
     return render_template("home.html", posts=posts)
 
 
@@ -185,3 +186,15 @@ def delete_post(post_id):
     db.session.commit()
     flash("Your post has been deleted", category="success")
     return redirect(url_for("home"))
+
+
+@app.route("/posts/<string:username>")
+@login_required
+def get_posts_by_username(username):
+    """."""
+    page = request.args.get("page", 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = Post.query.filter_by(author=user)\
+                      .order_by(Post.created_at.desc())\
+                      .paginate(page=page, per_page=5)
+    return render_template("user_post.html", posts=posts, user=user)
