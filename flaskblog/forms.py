@@ -15,7 +15,6 @@ class SignUpForm(FlaskForm):
     email = EmailField("E-mail", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=2, max=20)])
     confirm_password = PasswordField("Confirm password", validators=[DataRequired(), EqualTo("password")])
-    submit = SubmitField("Submit")
 
     def validate_username(self, username):
         """Validate if the username is already taken checking the database."""
@@ -36,7 +35,6 @@ class SignInForm(FlaskForm):
     email = StringField("E-mail", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=2, max=20)])
     remember_me = BooleanField("Remember Me")
-    submit = SubmitField("Submit")
 
 
 class UpdateAccountForm(FlaskForm):
@@ -45,7 +43,6 @@ class UpdateAccountForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=2, max=20)])
     email = EmailField("E-mail", validators=[DataRequired(), Email()])
     image = FileField("Update Profile Image", validators=[FileAllowed(["jpg", "png"])])
-    submit = SubmitField("Submit")
 
     def validate_username(self, username):
         """Validate if the username is already taken checking the database."""
@@ -69,4 +66,23 @@ class AddPostForm(FlaskForm):
 
     title = StringField("Title", validators=[DataRequired()])
     content = TextAreaField("Content", validators=[DataRequired()])
-    submit = SubmitField("Submit")
+
+
+class RequestResetPasswordForm(FlaskForm):
+    """."""
+
+    email = EmailField('E-mail', validators=[DataRequired(), Email()])
+
+    def validate_email(self, email):
+        """."""
+        found_user = User.query.filter_by(email=email.data).first()
+        if not found_user:
+            raise ValidationError("No user found with the e-mail passed. " +
+                                  "Please retry or register with this e-mail")
+
+
+class ResetPasswordForm(FlaskForm):
+    """."""
+
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=2, max=20)])
+    confirm_password = PasswordField("Confirm password", validators=[DataRequired(), EqualTo("password")])

@@ -7,3 +7,6 @@
 
 " Emacs Buffers
 *~
+
+" ENV
+.env
