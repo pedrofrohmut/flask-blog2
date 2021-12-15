@@ -31,7 +31,7 @@
 	<div class="mb-3">
 	  <input type="submit" value="Submit" class="btn btn-primary" />
           <small class="text-muted ml-2">
-            <a href="{{ url_for("request_reset_password") }}">Forgot password?</a>
+            <a href="{{ url_for('users.request_reset_password') }}">Forgot password?</a>
           </small>
         </div>
       </fieldset>
@@ -40,7 +40,7 @@
   <div class="border-top pt-3">
     <small class="text-muted">
       Do you not have an account yet?
-      <a class="ml-2" href="{{ url_for('signup') }}">Sign Up</a>
+      <a class="ml-2" href="{{ url_for('users.signup') }}">Sign Up</a>
     </small>
   </div>
 {% endblock content %}

@@ -8,13 +8,13 @@
       <div class="media-body">
 	<div class="article-metadata py-2">
 	  <a class="me-2"
-             href="{{ url_for('get_posts_by_username', username=post.author.username) }}">
+             href="{{ url_for('posts.get_posts_by_username', username=post.author.username) }}">
             {{ post.author.username }}
           </a>
 	  <small class="text-muted">{{ post.created_at.strftime("%d/%m/%Y") }}</small>
 	</div>
 	<h2>
-	  <a class="article-title" href="{{ url_for('get_post', post_id=post.id) }}">
+	  <a class="article-title" href="{{ url_for('posts.get_post', post_id=post.id) }}">
 	    {{ post.title }}
 	  </a>
 	</h2>
@@ -26,12 +26,12 @@
     {% if not page_num %}
       ...
     {% elif posts.page == page_num %}
-      <a href="{{ url_for('get_posts_by_username', username=user.username, page=page_num) }}"
+      <a href="{{ url_for('posts.get_posts_by_username', username=user.username, page=page_num) }}"
          class="btn btn-info mb-4 text-white">
         {{ page_num }}
       </a>
     {% else %}
-      <a href="{{ url_for('get_posts_by_username', username=user.username, page=page_num) }}"
+      <a href="{{ url_for('posts.get_posts_by_username', username=user.username, page=page_num) }}"
          class="btn btn-outline-info mb-4">
         {{ page_num }}
       </a>

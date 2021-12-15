@@ -1,10 +1,11 @@
 """Database models."""
 # Using __main__ instead of app to workaround python import cycling
 from datetime import datetime
+from flask import current_app
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-from flaskblog import db, login_manager, app
+from flaskblog import db, login_manager
 
 
 @login_manager.user_loader
@@ -28,14 +29,14 @@ class User(db.Model, UserMixin):
 
     def get_reset_token(self, expires_in=1800):
         """."""
-        serializer = Serializer(app.config["SECRET_KEY"], expires_in=expires_in)
+        serializer = Serializer(current_app.config["SECRET_KEY"], expires_in=expires_in)
         reset_token = serializer.dumps({"user_id": self.id}).decode("UTF-8")
         return reset_token
 
     @staticmethod
     def verify_reset_token(token):
         """."""
-        serializer = Serializer(app.config["SECRET_KEY"])
+        serializer = Serializer(current_app.config["SECRET_KEY"])
         try:
             user_id = serializer.loads(token)["user_id"]
         except:

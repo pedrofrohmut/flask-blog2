@@ -12,7 +12,7 @@
       {% if post.author == current_user %}
         <div>
           <a class="btn btn-secondary btn-sm m-1"
-             href="{{ url_for('update_post', post_id=post.id) }}">
+             href="{{ url_for('posts.update_post', post_id=post.id) }}">
              Update
           </a>
         </div>
@@ -54,7 +54,7 @@
                 </button>
                 <form
                   method="POST"
-                  action="{{ url_for('delete_post', post_id=post.id) }}"
+                  action="{{ url_for('posts.delete_post', post_id=post.id) }}"
                 >
                   <input type="submit" class="btn btn-danger" value="Delete" />
                 </form>
